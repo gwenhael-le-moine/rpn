@@ -6,13 +6,13 @@
 void program::rpn_time() {
     struct timespec ts;
     struct tm* tm;
-    double date;
 
     // get local date
     clock_gettime(CLOCK_REALTIME, &ts);
     time_t time = (time_t)ts.tv_sec;
     tm = localtime(&time);
     if (tm != NULL) {
+        double date;
         // date format = HH.MMSSssssss
         date = ((double)tm->tm_hour) * 10000000000.0 + ((double)tm->tm_min) * 100000000.0 +
                ((double)tm->tm_sec) * 1000000.0 + (double)(ts.tv_nsec / 1000);
@@ -31,13 +31,13 @@ void program::rpn_time() {
 void program::rpn_date() {
     struct timespec ts;
     struct tm* tm;
-    double date;
 
     // get local date
     clock_gettime(CLOCK_REALTIME, &ts);
     time_t time = (time_t)ts.tv_sec;
     tm = localtime(&time);
     if (tm != NULL) {
+        double date;
         // date format = (M)M.DDYYYY
         date = (double)(tm->tm_mon + 1) * 1000000.0 + (double)(tm->tm_mday) * 10000.0 + (double)(tm->tm_year + 1900);
 
@@ -55,13 +55,13 @@ void program::rpn_date() {
 void program::rpn_ticks() {
     struct timespec ts;
     struct tm* tm;
-    double date;
 
     // get local date
     clock_gettime(CLOCK_REALTIME, &ts);
     time_t time = (time_t)ts.tv_sec;
     tm = localtime(&time);
     if (tm != NULL) {
+        double date;
         // date in µs
         date = 1000000.0 * (double)ts.tv_sec + (double)(ts.tv_nsec / 1000);
 

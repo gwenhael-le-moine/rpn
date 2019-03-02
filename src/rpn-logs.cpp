@@ -31,7 +31,6 @@ void program::rpn_alog10() {
     MIN_ARGUMENTS(1);
 
     if (_stack->get_type(0) == cmd_number || _stack->get_type(0) == cmd_complex) {
-        floating_t* left = &((number*)_stack->get_obj(0))->_value;
         number* ten = (number*)_stack->allocate_back(number::calc_size(), cmd_number);
         CHECK_MPFR(mpfr_set_d(ten->_value.mpfr, 10.0, floating_t::s_mpfr_rnd));
         rpn_ln();
@@ -63,7 +62,6 @@ void program::rpn_alog2() {
     MIN_ARGUMENTS(1);
 
     if (_stack->get_type(0) == cmd_number || _stack->get_type(0) == cmd_complex) {
-        floating_t* left = &((number*)_stack->get_obj(0))->_value;
         number* two = (number*)_stack->allocate_back(number::calc_size(), cmd_number);
         CHECK_MPFR(mpfr_set_d(two->_value.mpfr, 2.0, floating_t::s_mpfr_rnd));
         rpn_ln();

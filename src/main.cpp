@@ -102,7 +102,6 @@ static void catch_signals(program* prog) {
 ///
 int main(int argc, char* argv[]) {
     int ret = 0;
-    bool go_on = true;
 
     // apply default configuration
     program::apply_default();
@@ -114,6 +113,8 @@ int main(int argc, char* argv[]) {
 
         // entry loop
         while (go_on) {
+            bool go_on = true;
+
             // make program from interactive entry
             program prog;
             switch (program::entry(prog)) {
@@ -153,8 +154,6 @@ int main(int argc, char* argv[]) {
         // make program
         ret = program::parse(entry.c_str(), prog);
         if (ret == ret_ok) {
-            string separator = "";
-
             // user could stop prog with CtrlC
             catch_signals(&prog);
 

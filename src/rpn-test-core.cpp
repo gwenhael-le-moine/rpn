@@ -82,12 +82,12 @@ void program::test(string test_filename, int& total_tests, int& total_tests_fail
     const string cmd_exit("exit test");
 
     ifstream test_file(test_filename.c_str());
-    int tests = 0;
-    int tests_failed = 0;
-    int steps = 0;
-    int steps_failed = 0;
 
     if (test_file.is_open()) {
+        int tests = 0;
+        int tests_failed = 0;
+        int steps = 0;
+        int steps_failed = 0;
         string test_title;
         string entry;
         ret_value ret;
@@ -144,7 +144,7 @@ void program::test(string test_filename, int& total_tests, int& total_tests_fail
 
                     // show failure
                     printf("\t%s\n", entry.c_str());
-                    printf("\tbut real stack size is " FG_RED "%d" COLOR_OFF "\n", stk.size());
+                    printf("\tbut real stack size is " FG_RED "%u" COLOR_OFF "\n", stk.size());
                     failed = true;
                 }
                 is_first_step = false;

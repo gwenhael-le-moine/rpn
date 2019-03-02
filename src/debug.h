@@ -2,6 +2,8 @@
 #define DEBUG_H
 
 #include <string.h>
+#include <stdio.h>
+#include <stdint.h>
 
 static void dump8(unsigned char* to_dump, unsigned long offset, unsigned long size) {
     const int block_size = 1;

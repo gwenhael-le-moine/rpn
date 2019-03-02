@@ -239,7 +239,7 @@ class heap : public stack {
     /// @param size the variable size in bytes
     /// @return object* 
     ///
-    object* add(const string name, object* obj, unsigned int size) {
+    object* add(const string& name, object* obj, unsigned int size) {
         map<string, unsigned int>::iterator i = _map.find(name);
         object* local = NULL;
 
@@ -247,7 +247,7 @@ class heap : public stack {
         // short -> allocate
         if (i != _map.end()) local = seq_obj(i->second);
 
-        if (local == NULL || (local != NULL && size > local->_size)) {
+        if (local == NULL ||  size > local->_size) {
             copy_and_push_back(obj, *this, size);
             _map[name] = ((stack*)this)->size() - 1;
         } else {
@@ -271,7 +271,7 @@ class heap : public stack {
     /// @return true the variable was found
     /// @return false the variable was not found
     ///
-    bool get(const string name, object*& obj, unsigned int& size) {
+    bool get(const string& name, object*& obj, unsigned int& size) {
         bool ret = false;
         map<string, unsigned int>::iterator i = _map.find(name);
 
@@ -291,7 +291,7 @@ class heap : public stack {
     /// @return true the variable was found
     /// @return false the variable was not found
     ///
-    bool replace_value(const string name, object* obj, unsigned int size) {
+    bool replace_value(const string& name, object* obj, unsigned int size) {
         bool ret = false;
         map<string, unsigned int>::iterator i = _map.find(name);
 
@@ -306,6 +306,8 @@ class heap : public stack {
                 ret = true;
             }
         }
+
+        return ret;
     }
 
     /// @brief whether a variable exists in heap or not
@@ -314,7 +316,7 @@ class heap : public stack {
     /// @return true the variable exists
     /// @return false variable does not exist
     ///
-    bool exist(const string name) { return (_map.find(name) != _map.end()); }
+    bool exist(const string& name) { return (_map.find(name) != _map.end()); }
 
     /// @brief get a variable by its index in heap
     /// 

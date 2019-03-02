@@ -117,8 +117,8 @@ static void print_fix(FILE* stream, mpfr_t real, int base, const char* write_aft
         }
     } else {
         char* str = mpfr_get_str(NULL, &exp, base, digits + exp + 1, real, floating_t::s_mpfr_rnd);
-        char* print_from;
         if (str != NULL) {
+            char* print_from;
             int len = strlen(str);
             print_from = str;
             if (len > 0) {

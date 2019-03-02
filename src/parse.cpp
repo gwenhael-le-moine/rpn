@@ -41,7 +41,6 @@ ret_value program::entry(program& prog) {
     string entry_str;
     char* entry;
     int entry_len;
-    int total_entry_len;
     ret_value ret = ret_max;
     bool multiline = false;
 
@@ -114,12 +113,12 @@ ret_value program::get_fn(const char* fn_name, program_fn_t& fn, cmd_type_t& typ
 ///
 static bool get_keyword(const string& entry, program& prog, string& remaining_entry) {
     program_fn_t fn;
-    unsigned int obj_len;
     cmd_type_t type;
     bool ret = false;
 
     // could be a command
     if (program::get_fn(entry.c_str(), fn, type) == ret_ok) {
+        unsigned int obj_len;
         if (type == cmd_keyword) {
             // allocate keyword object
             obj_len = sizeof(keyword) + entry.size() + 1;
@@ -383,7 +382,6 @@ static bool get_complex(const string& entry, program& prog, string& remaining_en
             string im_str = entry.substr(comma + 1).c_str();
             if (ret == true && im_str.find_first_of(" +-0123456789.ni@", 0) == 0) {
                 ret = false;
-                int mpfr_ret = mpfr_strtofr(cplx->im()->mpfr, im_str.c_str(), &endptr, 0, MPFR_DEFAULT_RND);
                 if (endptr != NULL && endptr != im_str.c_str()) {
                     // determine representation
                     string beg = im_str.substr(0, 2);
@@ -411,7 +409,6 @@ static bool get_complex(const string& entry, program& prog, string& remaining_en
 ///
 static bool get_comment(string& entry, string& remaining_entry) {
     bool ret = false;
-    unsigned int obj_len;
     int entry_len = entry.size();
     if (entry_len >= 1 && entry[0] == '#') {
         // entry (complete line) is ignored
@@ -607,7 +604,7 @@ ret_value program::parse(const char* entry, program& prog) {
     // 1. cut global entry string into shorter strings
     if (_cut(entry, entries)) {
         // 2. make an object from each entry, and add it to the program
-        for (vector<string>::iterator it = entries.begin(); it != entries.end(); it++) {
+        for (vector<string>::iterator it = entries.begin(); it != entries.end(); ++it) {
             string remaining_entry;
             string main_entry = (*it);
             while (main_entry.size() > 0) {

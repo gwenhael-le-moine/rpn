@@ -197,7 +197,7 @@ program::keyword_t program::s_keywords[] = {
     {cmd_keyword, "exp2", &program::rpn_alog2, ""},
     {cmd_keyword, "sinh", &program::rpn_sinh, "hyperbolic sine"},
     {cmd_keyword, "asinh", &program::rpn_asinh, "inverse hyperbolic sine"},
-    {cmd_keyword, "cosh", &program::rpn_sinh, "hyperbolic cosine"},
+    {cmd_keyword, "cosh", &program::rpn_cosh, "hyperbolic cosine"},
     {cmd_keyword, "acosh", &program::rpn_acosh, "inverse hyperbolic cosine"},
     {cmd_keyword, "tanh", &program::rpn_tanh, "hyperbolic tangent"},
     {cmd_keyword, "atanh", &program::rpn_atanh, "inverse hyperbolic tangent"},
@@ -220,7 +220,7 @@ program::keyword_t program::s_keywords[] = {
 ///
 ret_value program::run(stack& stk, heap& hp) {
     bool go_out = false;
-    ret_value ret = ret_ok;
+    ret_value ret;
     cmd_type_t type;
 
     // stack comes from outside
@@ -481,9 +481,6 @@ ret_value program::preprocess(void) {
                 }
                 vlayout[layout_index].index_then_or_unti_or_repeat = i;
             } else if (compare_branch(k, "end", 3)) {
-                int next = i + 1;
-                if (next >= (int)size()) next = -1;
-
                 if (layout_index < 0) {
                     // error: show it
                     show_syntax_error("missing branch instruction before end");
@@ -576,8 +573,10 @@ ret_value program::show_error() {
         case ret_internal:
         case ret_deadly:
             ret = ret_deadly;
+            break;
         default:
             ret = ret_ok;
+            break;
     }
 
     return ret;
